@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+  <meta charset="UTF-8">
+  <title>Khmer Word Builder</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🧩 Khmer Word Building Game</h1>
+
+    <div class="game-card">
+        <img src="{{ word.img_path }}" alt="Word Image" class="word-image" onclick="playAudio()">
+      <audio id="audio" src="{{ word.audio_path }}"></audio>
+      <button onclick="playAudio()">🔊 Play Pronunciation</button>
+    </div>
+
+    <div class="drop-zone" id="drop-zone">
+      <!-- Drop targets -->
+    </div>
+
+    <div class="drag-area" id="drag-area">
+      {% for letter in word.shuffled %}
+        <div class="draggable" draggable="true">{{ letter }}</div>
+      {% endfor %}
+    </div>
+
+    <button onclick="checkAnswer()">✅ Check</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const correctLength = {{ word.components|length }};
+  </script>
+  <script src="/static/game.js"></script>
+</body>
+</html>

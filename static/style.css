@@ -1,0 +1,96 @@
+body {
+    font-family: "Noto Sans Khmer", sans-serif;
+    background: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px;
+}
+
+.container {
+    text-align: center;
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 600px;
+}
+
+h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.word-image {
+    width: 250px;
+    height: auto;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.word-image:hover {
+    transform: scale(1.03);
+}
+
+/* Drop zone layout */
+#drop-zone {
+    display: grid;
+    grid-template-areas:
+        ". top ."
+        "left main right right2"
+        ". bottom .";
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 10px;
+    margin-bottom: 30px;
+    justify-content: center;
+}
+
+.drop-box {
+    width: 60px;
+    height: 60px;
+    background: #fafafa;
+    border: 2px dashed #ccc;
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.drop-box:nth-child(1) { grid-area: top; }
+.drop-box:nth-child(2) { grid-area: left; }
+.drop-box:nth-child(3) { grid-area: main; }
+.drop-box:nth-child(4) { grid-area: right; }
+.drop-box:nth-child(5) { grid-area: right2; }
+.drop-box:nth-child(6) { grid-area: bottom; }
+
+/* Draggable letters */
+.drag-area {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.draggable {
+    padding: 12px 16px;
+    background-color: #e1f5fe;
+    border: 1px solid #81d4fa;
+    border-radius: 8px;
+    cursor: grab;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+/* Result message */
+#result {
+    font-size: 20px;
+    margin-top: 15px;
+    font-weight: bold;
+}

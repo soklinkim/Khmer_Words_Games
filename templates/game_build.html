@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+  <meta charset="UTF-8">
+  <title>Khmer Word Builder</title>
+  <style>
+    body {
+        font-family: "Noto Sans Khmer", sans-serif;
+        background: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 40px;
+    }
+
+    .container {
+        text-align: center;
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 600px;
+    }
+
+    h1 {
+        font-size: 28px;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .word-image {
+        width: 250px;
+        height: auto;
+        margin-bottom: 20px;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+
+    .word-image:hover {
+        transform: scale(1.03);
+    }
+
+    #drop-zone {
+        display: grid;
+        grid-template-areas:
+            ". above ."
+            "left main right right2"
+            ". below .";
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-rows: auto auto auto;
+        gap: 10px;
+        margin-bottom: 20px;
+        justify-content: center;
+    }
+
+    .drop-box {
+        width: 60px;
+        height: 60px;
+        background: #fafafa;
+        border: 2px dashed #ccc;
+        font-size: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        font-weight: bold;
+    }
+
+    #box1 { grid-area: above; }
+    #box2 { grid-area: left; }
+    #box3 { grid-area: main; }
+    #box4 { grid-area: right; }
+    #box5 { grid-area: right2; }
+    #box6 { grid-area: below; }
+
+    .drag-area {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .drag-item {
+        width: 60px;
+        height: 60px;
+        background-color: #d1e7ff;
+        border: 2px solid #0096c7;
+        border-radius: 10px;
+        font-size: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: grab;
+        font-weight: bold;
+    }
+
+    .drag-item:active {
+        cursor: grabbing;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🧩 Khmer Word Building Game</h1>
+
+    <!-- Image and Audio -->
+    <div>
+      <img id="game-image" class="word-image" onclick="playAudio()" src="" alt="Word Image">
+      <audio id="audio-player" src=""></audio>
+      <br>
+      <button onclick="playAudio()">🔊 Play Pronunciation</button>
+    </div>
+
+    <!-- Drop Zones -->
+    <div id="drop-zone">
+      <div class="drop-box" id="box1"></div> <!-- above -->
+      <div class="drop-box" id="box2"></div> <!-- left -->
+      <div class="drop-box" id="box3"></div> <!-- main -->
+      <div class="drop-box" id="box4"></div> <!-- right -->
+      <div class="drop-box" id="box5"></div> <!-- right_right -->
+      <div class="drop-box" id="box6"></div> <!-- below -->
+    </div>
+
+    <!-- Draggable Letters -->
+    <div class="drag-area" id="char-bank">
+      <!-- Dynamically loaded letters go here -->
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    function playAudio() {
+      document.getElementById("audio-player").play();
+    }
+
+    // Load word data from backend
+    window.onload = async function () {
+      const res = await fetch('/get-word');
+      const data = await res.json();
+
+      document.getElementById('game-image').src = data.img_path;
+      document.getElementById('audio-player').src = data.audio_path;
+
+      const chars = [
+        data.main_char,
+        data.left_char,
+        data.right_char,
+        data.right_right,
+        data.above_char,
+        data.below_char
+      ].filter(Boolean).sort(() => Math.random() - 0.5); // shuffle
+
+      const bank = document.getElementById('char-bank');
+      bank.innerHTML = '';
+
+      chars.forEach(ch => {
+        const div = document.createElement('div');
+        div.className = 'drag-item';
+        div.setAttribute('draggable', 'true');
+        div.textContent = ch;
+        bank.appendChild(div);
+      });
+
+      initDragAndDrop();
+    };
+
+    function initDragAndDrop() {
+      const dragItems = document.querySelectorAll('.drag-item');
+      const dropBoxes = document.querySelectorAll('.drop-box');
+
+      dragItems.forEach(item => {
+        item.addEventListener('dragstart', (e) => {
+          e.dataTransfer.setData('text/plain', e.target.textContent);
+        });
+      });
+
+      dropBoxes.forEach(box => {
+        box.addEventListener('dragover', (e) => e.preventDefault());
+        box.addEventListener('drop', (e) => {
+          e.preventDefault();
+          const data = e.dataTransfer.getData('text/plain');
+          e.target.textContent = data;
+        });
+      });
+    }
+  </script>
+</body>
+</html>
