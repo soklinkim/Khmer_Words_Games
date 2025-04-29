@@ -119,4 +119,11 @@ h1 {
     font-size: 20px;
     margin-top: 15px;
     font-weight: bold;
-}    
+}   
+
+button {
+    font-family: "Noto Sans Khmer", sans-serif;
+    font-size: 20px;
+    margin-top: 15px;
+    font-weight: bold;
+}
