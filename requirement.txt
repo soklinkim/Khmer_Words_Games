@@ -1,0 +1,19 @@
+1.	 Game Design Overview
+      There are two main modes in this game:
+•	Word Building: Drag and drop letters into boxes to build a word that matches a picture.
+•	Word Learning: Match pictures to a list of Khmer words by dragging them into the correct order.
+2.	 Programing language
+
+•	HTML & CSS: Game layout, styling, and structure
+•	JavaScript (basic): Drag & drop functionality, timers, audio clicks
+•	Python: is the main programming language for this project. We use it for Game logic, routing, and communication
+•	Flash is Python microframework used for building web application 
+•	SQLite is the Database for storing words, pictures, audio, scores, progress
+
+3.	Data Structure
+•	Words, Images, Audios: Stored in SQLite database with fields for ID, Khmer word, consonants/vowels, image filename, and pronunciation file.
+•	Game State: Tracked using Python dictionaries and session variables.
+
+4. download flask module to run the app.py
+
+5. download Table Plus to view the database

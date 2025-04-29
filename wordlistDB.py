@@ -1,6 +1,6 @@
 import sqlite3
 
-# Connect to your database (or create it)
+# Connect to database (or create it)
 conn = sqlite3.connect("game.db")
 cursor = conn.cursor()
 
