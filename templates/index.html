@@ -12,7 +12,6 @@
     <div class="game-card">
         <img src="{{ word.img_path }}" alt="Word Image" class="word-image" onclick="playAudio()">
       <audio id="audio" src="{{ word.audio_path }}"></audio>
-      <button onclick="playAudio()">🔊 Play Pronunciation</button>
     </div>
 
     <div class="drop-zone" id="drop-zone">
@@ -20,7 +19,7 @@
       <div class="drop-box" data-part="left" style="grid-area: left;"></div>
       <div class="drop-box" data-part="main" style="grid-area: main;"></div>
       <div class="drop-box" data-part="right" style="grid-area: right;"></div>
-      <div class="drop-box" data-part="right2" style="grid-area: right2;"></div>
+      <div class="drop-box" data-part="right_right" style="grid-area: right2;"></div>
       <div class="drop-box" data-part="bottom" style="grid-area: bottom;"></div>
     </div>
 

@@ -62,11 +62,19 @@ function playAudio() {
         if (data.correct) {
             result.textContent = "✅ Correct!";
             result.style.color = "green";
+    
+            // After a short delay (like 1 second), load a new word automatically
+            setTimeout(() => {
+                loadNewWord();
+            }, 1000);
         } else {
-            result.textContent = "❌ Wrong! Correct word: " + data.correct_word;
+            result.textContent = "❌ Wrong!";
             result.style.color = "red";
+    
+            // Stay on the same word (do not change anything)
         }
     });
+    
 }
 
   

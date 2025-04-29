@@ -73,7 +73,7 @@ def check_word():
     # Build the user word using correct order
     positions = ['left', 'top', 'main', 'bottom', 'right', 'right_right']
     user_word = ''.join([user_components.get(p, '') for p in positions])
-    correct_word = ''.join([expected_parts.get(p, '') for p in positions])
+    correct_word = ''.join([expected_parts.get(p) or '' for p in positions])
 
     is_correct = user_word == correct_word
     return jsonify({'correct': is_correct, 'correct_word': correct_word})
