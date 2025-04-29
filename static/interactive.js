@@ -47,7 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-
 function hideDragItem(letter) {
     const items = document.querySelectorAll('.draggable');
     items.forEach(item => {
