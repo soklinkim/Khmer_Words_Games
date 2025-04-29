@@ -2,75 +2,43 @@ document.addEventListener('DOMContentLoaded', () => {
     const dropBoxes = document.querySelectorAll('.drop-box');
     const dragItems = document.querySelectorAll('.draggable');
 
-    const letterUsage = {};  // Tracks how many times each letter is used
-
-    // Enable dragging for letters
+    // Allow letters to be dragged
     dragItems.forEach(item => {
         item.addEventListener('dragstart', (e) => {
             e.dataTransfer.setData("text/plain", item.textContent);
         });
+    
     });
 
-    // Drop box logic
+    // Drop logic with duplicate prevention
     dropBoxes.forEach(box => {
         box.ondragover = e => e.preventDefault();
-
         box.ondrop = e => {
             e.preventDefault();
             const data = e.dataTransfer.getData("text/plain");
 
-            const prevLetter = box.textContent.trim();
-            if (prevLetter) {
-                // Decrease usage count of old letter
-                letterUsage[prevLetter] = (letterUsage[prevLetter] || 1) - 1;
-                if (letterUsage[prevLetter] <= 0) {
-                    letterUsage[prevLetter] = 0;
-                    showDragItem(prevLetter);
-                }
-            }
+            // Check for duplicates
+            const isDuplicate = [...dropBoxes].some(b => b.textContent === data);
+            if (isDuplicate) return;
 
-            // Set new letter
-            box.textContent = data;
-
-            // Increase usage count for dropped letter
-            letterUsage[data] = (letterUsage[data] || 0) + 1;
-            if (letterUsage[data] >= 1) {
-                hideDragItem(data);
-            }
+            box.textContent = data;  // Replace existing text (if any)
         };
 
+        // Optional: clear on click (to reassign letters)
         box.addEventListener('click', () => {
-            const prevLetter = box.textContent.trim();
-            if (prevLetter) {
-                // Decrease usage count
-                letterUsage[prevLetter] = (letterUsage[prevLetter] || 1) - 1;
-                if (letterUsage[prevLetter] <= 0) {
-                    letterUsage[prevLetter] = 0;
-                    showDragItem(prevLetter);
-                }
-                box.textContent = '';
-            }
+            box.textContent = '';
         });
     });
-
-    function hideDragItem(letter) {
-        const items = document.querySelectorAll('.draggable');
-        items.forEach(item => {
-            if (item.textContent === letter) {
-                item.style.visibility = 'hidden';  // Hide but keep space
-            }
-        });
-    }
-
-    function showDragItem(letter) {
-        const items = document.querySelectorAll('.draggable');
-        items.forEach(item => {
-            if (item.textContent === letter) {
-                item.style.visibility = 'visible';
-            }
-        });
-    }
 });
+
+function hideDragItem(letter) {
+    const items = document.querySelectorAll('.draggable');
+    items.forEach(item => {
+        if (item.textContent === letter) {
+            item.style.visibility = 'hidden';  // Hide but keep space
+        }
+    });
+}
 
 function playAudio() {
     document.getElementById("audio").play();
