@@ -11,7 +11,8 @@
 
     <div class="game-card">
         <img src="{{ word.img_path }}" alt="Word Image" class="word-image" onclick="playAudio()">
-      <audio id="audio" src="{{ word.audio_path }}"></audio>
+        <audio id="audio" src="{{ word.audio_path }}"></audio>
+        <div id="result"></div>
     </div>
 
     <div class="drop-zone" id="drop-zone">
