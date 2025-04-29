@@ -42,7 +42,7 @@ def get_distractors():
     khmer_letters = ['ក', 'ខ', 'គ', 'ឃ', 'ង', 'ច', 'ឆ', 'ជ', 'ឈ', 'ញ',
                      'ដ', 'ឋ', 'ឌ', 'ឍ', 'ណ', 'ត', 'ថ', 'ទ', 'ធ', 'ន',
                      'ប', 'ផ', 'ព', 'ភ', 'ម', 'យ', 'រ', 'ល', 'វ', 'ស',
-                     'ហ', 'ឡ', 'អ', 'ា', 'ិ', 'ី', 'ឹ', 'ឺ', 'ុ', 'ូ', 'ួ', 'ំ', 'ះ' , 'េ', 'ែ', 'ៃ', 'ោ', 'ៅ',]
+                     'ហ', 'ឡ', 'អ', 'ា', 'ិ', 'ី', 'ឹ', 'ឺ', 'ុ', 'ូ', 'ួ', 'ំ', 'ះ' , 'េ', 'ែ', 'ៃ', 'ៅ',]
     return random.sample(khmer_letters, 2)
 
 @app.route('/')
@@ -59,6 +59,16 @@ def check_word():
 
     is_correct = user_word == correct_word
     return jsonify({'correct': is_correct, 'correct_word': correct_word})
+
+@app.route('/get-word')
+def get_word():
+    word_data = get_random_word()
+    if word_data:
+        session['correct_word'] = ''.join(word_data['components'])
+        session['current_word_id'] = word_data['id']
+        return jsonify(word_data)
+    else:
+        return jsonify({'error': 'No word found'}), 404
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -29,7 +29,7 @@
     }
 
     .word-image {
-        width: 250px;
+        width: 100%;
         height: auto;
         margin-bottom: 20px;
         border-radius: 12px;
@@ -127,6 +127,11 @@
     <div class="drag-area" id="char-bank">
       <!-- Dynamically loaded letters go here -->
     </div>
+
+    <!-- Check Answer Button and Result -->
+    <button onclick="checkAnswer()" style="margin-top: 20px; font-size: 18px;">✅ Check Answer</button>
+    <p id="result" style="margin-top: 10px; font-weight: bold;"></p>
+
   </div>
 
   <!-- JavaScript -->
@@ -144,13 +149,14 @@
       document.getElementById('audio-player').src = data.audio_path;
 
       const chars = [
-        data.main_char,
         data.left_char,
-        data.right_char,
-        data.right_right,
-        data.above_char,
-        data.below_char
-      ].filter(Boolean).sort(() => Math.random() - 0.5); // shuffle
+        data.above,
+        data.main_char,
+        data.below,
+        data.right,
+        data.right_right
+    ].filter(Boolean).sort(() => Math.random() - 0.5); // shuffle
+
 
       const bank = document.getElementById('char-bank');
       bank.innerHTML = '';

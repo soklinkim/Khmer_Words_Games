@@ -24,10 +24,10 @@ CREATE TABLE IF NOT EXISTS Words (
 words_to_insert = [
     ("កុក", "ក", None, None, "ុ", "ក", None, "static/images/កុក.jpg", "static/audio/កុក.mp3"),
     ("ខ្លា", "ខ", None, None, "ល", "ា", None, "static/images/ខ្លា.jpg", "static/audio/ខ្លា.mp3"),
-    ("គោ", "គ", "េ", None, None, "ោ", None, "static/images/គោ.png", "static/audio/គោ.mp3"),
-    ("ឃ្លោក", "ឃ", "េ", None, "ល", "ា", "ក", "static/images/ឃ្លោក.png", "static/audio/ឃ្លោក.mp3"),
-    ("ងាវ", "ង", None, None, None, "ា", "វ", "static/images/ងាវ.png", "static/audio/ងាវ.mp3"),
-    ("ចាប", "ច", None, None, None, "ា", "ប", "static/images/ចាប.png", "static/audio/ចាប.mp3")
+    ("គោ", "គ", "េ", None, None,"ា" , None, "static/images/គោ.jpg", "static/audio/គោ.mp3"),
+    ("ឃ្លោក", "ឃ", "េ", None, "ល", "ា", "ក", "static/images/ឃ្លោក.jpg", "static/audio/ឃ្លោក.mp3"),
+    ("ងាវ", "ង", None, None, None, "ា", "វ", "static/images/ងាវ.jpg", "static/audio/ងាវ.mp3"),
+    ("ចាប", "ច", None, None, None, "ា", "ប", "static/images/ចាប.jpg", "static/audio/ចាប.mp3")
 ]
 
 # Step 3: Insert data
