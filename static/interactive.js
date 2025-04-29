@@ -70,7 +70,7 @@ function playAudio() {
     .then(data => {
         const result = document.getElementById("result");
         if (data.correct) {
-            result.textContent = "✅ Correct!";
+            result.textContent = "✅ ត្រឹមត្រូវ!";
             result.style.color = "green";
     
             // After a short delay (like 1 second), load a new word automatically
@@ -78,7 +78,7 @@ function playAudio() {
                 loadNewWord();
             }, 1000);
         } else {
-            result.textContent = "❌ Wrong!";
+            result.textContent = "❌ ខុស!";
             result.style.color = "red";
     
             // Stay on the same word (do not change anything)
