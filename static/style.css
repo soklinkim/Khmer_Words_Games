@@ -113,3 +113,8 @@ button {
     margin-top: 15px;
     font-weight: bold;
 }
+
+#drop-box-main {
+    background-color: hsla(80, 100%, 80%, 0.4);
+
+}
