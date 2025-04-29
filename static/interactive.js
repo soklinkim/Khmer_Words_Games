@@ -2,34 +2,51 @@ document.addEventListener('DOMContentLoaded', () => {
     const dropBoxes = document.querySelectorAll('.drop-box');
     const dragItems = document.querySelectorAll('.draggable');
 
-    // Allow letters to be dragged
+    // Allow dragging
     dragItems.forEach(item => {
         item.addEventListener('dragstart', (e) => {
             e.dataTransfer.setData("text/plain", item.textContent);
         });
-    
     });
 
-    // Drop logic with duplicate prevention
     dropBoxes.forEach(box => {
         box.ondragover = e => e.preventDefault();
+
         box.ondrop = e => {
             e.preventDefault();
             const data = e.dataTransfer.getData("text/plain");
 
-            // Check for duplicates
+            // Check for duplicates in drop boxes
             const isDuplicate = [...dropBoxes].some(b => b.textContent === data);
             if (isDuplicate) return;
 
-            box.textContent = data;  // Replace existing text (if any)
+            box.textContent = data;
+
+            // Hide the dragged letter from the pool
+            const items = document.querySelectorAll('.draggable');
+            items.forEach(item => {
+                if (item.textContent === data) {
+                    item.style.visibility = 'hidden';
+                }
+            });
         };
 
-        // Optional: clear on click (to reassign letters)
+        // Click to remove letter from drop box and show back in drag pool
         box.addEventListener('click', () => {
+            const removedLetter = box.textContent.trim();
             box.textContent = '';
+
+            // Make the letter visible again in drag area
+            const items = document.querySelectorAll('.draggable');
+            items.forEach(item => {
+                if (item.textContent === removedLetter) {
+                    item.style.visibility = 'visible';
+                }
+            });
         });
     });
 });
+
 
 function hideDragItem(letter) {
     const items = document.querySelectorAll('.draggable');
