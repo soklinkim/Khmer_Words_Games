@@ -16,7 +16,12 @@
     </div>
 
     <div class="drop-zone" id="drop-zone">
-      <!-- Drop targets -->
+      <div class="drop-box" data-part="top" style="grid-area: top;"></div>
+      <div class="drop-box" data-part="left" style="grid-area: left;"></div>
+      <div class="drop-box" data-part="main" style="grid-area: main;"></div>
+      <div class="drop-box" data-part="right" style="grid-area: right;"></div>
+      <div class="drop-box" data-part="right2" style="grid-area: right2;"></div>
+      <div class="drop-box" data-part="bottom" style="grid-area: bottom;"></div>
     </div>
 
     <div class="drag-area" id="drag-area">
@@ -26,12 +31,15 @@
     </div>
 
     <button onclick="checkAnswer()">✅ Check</button>
+    <button onclick="loadNewWord()">🔄 New Word</button>
+
     <div id="result"></div>
   </div>
 
   <script>
     const correctLength = {{ word.components|length }};
   </script>
-  <script src="/static/game.js"></script>
+  <script src="/static/interactive.js"></script>
 </body>
-</html>
+</html> 
+
