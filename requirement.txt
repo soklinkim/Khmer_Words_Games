@@ -1,7 +1,6 @@
 1.	 Game Design Overview
-      There are two main modes in this game:
-•	Word Building: Drag and drop letters into boxes to build a word that matches a picture.
-•	Word Learning: Match pictures to a list of Khmer words by dragging them into the correct order.
+        Word Building: Drag and drop letters into boxes to build a word that matches a picture.
+
 2.	 Programing language
 
 •	HTML & CSS: Game layout, styling, and structure
@@ -11,9 +10,29 @@
 •	SQLite is the Database for storing words, pictures, audio, scores, progress
 
 3.	Data Structure
+
 •	Words, Images, Audios: Stored in SQLite database with fields for ID, Khmer word, consonants/vowels, image filename, and pronunciation file.
 •	Game State: Tracked using Python dictionaries and session variables.
 
 4. download flask module to run the app.py
 
 5. download Table Plus to view the database
+
+6. There are some limitation:
+
+- we can only add word up to 6 characters. One is the main character/consonant, one must be the above vowel, one must be the below vowel or foot, one must be the right vowel
+and the last one is for the sub consonant.
+
+- We cannot add all the Khmer characters like vowels and character's foot into the database because it does not show dependently in HTML.
+for example: "្ម"​ will show "្​ ម"​ in the HTML. we can use character's foot when the character and its foot look the same.
+
+- If the word has a double characters like "កុក", we can only drop one inside the drop boxes. 
+
+So, make sure to adviod adding new words with double letters and also word with complex foot.
+
+7. Future Improvement:
+
+- More interactive
+- Add time tracker functionaily
+- Add a new game mode which is learning word game
+- Move to application
