@@ -3,7 +3,7 @@ import sqlite3
 import random
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # for session tracking
+app.secret_key = 'secret_key_86'  # for session tracking
 
 DB_PATH = "game.db"
 
