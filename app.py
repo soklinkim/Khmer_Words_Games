@@ -88,6 +88,57 @@ def get_word():
         return jsonify(word_data)
     else:
         return jsonify({'error': 'No word found'}), 404
+    
+# Add a new route to serve the learning mode data
+@app.route('/learning-mode')
+def learning_mode():
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM Words ORDER BY RANDOM() LIMIT 4")
+    rows = cursor.fetchall()
+    conn.close()
+
+    if not rows or len(rows) < 4:
+        return jsonify({'error': 'Not enough words'}), 400
+
+    words = []
+    correct_words = []
+    for row in rows:
+        word_text = row[1]
+        words.append({
+            'id': row[0],
+            'img_path': row[8],
+            'word': word_text
+        })
+        correct_words.append(word_text)
+
+    # Add 1 distractor
+    distractor = get_distractors()[0]
+    all_words = correct_words + [distractor]
+    random.shuffle(all_words)
+
+    session['learning_correct'] = correct_words  # Save for validation
+
+    return jsonify({'words': words, 'choices': all_words})
+
+# connect with the start page
+@app.route('/')
+def home():
+    return render_template('start.html')
+
+# Add routes for each game mode
+
+@app.route('/word-building')
+def word_building():
+    word_data = get_random_word()
+    session['correct_word'] = ''.join(word_data['components'])
+    session['current_word_id'] = word_data['id']
+    return render_template('index.html', word=word_data)
+
+@app.route('/word-learning')
+def word_learning():
+    return render_template('learning.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)

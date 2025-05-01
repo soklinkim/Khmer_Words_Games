@@ -1,0 +1,60 @@
+<!-- start.html -->
+<!DOCTYPE html>
+<html lang="km">
+<head>
+  <meta charset="UTF-8">
+  <title>Game Modes</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <style>
+    body {
+      font-family: "Noto Sans Khmer", sans-serif;
+      background: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      text-align: center;
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+      width: 300px;
+    }
+
+    h1 {
+      font-size: 26px;
+      margin-bottom: 25px;
+      color: #333;
+    }
+
+    button {
+      font-family: "Noto Sans Khmer", sans-serif;
+      font-size: 20px;
+      padding: 10px 20px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 10px;
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #388E3C;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>ជ្រើសរើសរបៀបលេង</h1>
+    <button onclick="location.href='/word-building'">🎮 រៀបពាក្យ</button>
+    <button onclick="location.href='/word-learning'">📚 រៀនពាក្យ</button>
+  </div>
+</body>
+</html>

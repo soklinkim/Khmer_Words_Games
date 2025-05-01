@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Allow dragging
     dragItems.forEach(item => {
+        item.dataset.letter = item.textContent;
         item.addEventListener('dragstart', (e) => {
             e.dataTransfer.setData("text/plain", item.textContent);
         });
@@ -24,11 +25,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Hide the dragged letter from the pool
             const items = document.querySelectorAll('.draggable');
-            items.forEach(item => {
-                if (item.textContent === data) {
+            for (const item of items) {
+                if (item.dataset.letter === data && item.style.visibility !== 'hidden') {
                     item.style.visibility = 'hidden';
+                    break;  // Hide only one matching letter
                 }
-            });
+            }            
         };
 
         // Click to remove letter from drop box and show back in drag pool
@@ -38,11 +40,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Make the letter visible again in drag area
             const items = document.querySelectorAll('.draggable');
-            items.forEach(item => {
-                if (item.textContent === removedLetter) {
+            for (const item of items) {
+                if (item.dataset.letter === removedLetter && item.style.visibility === 'hidden') {
                     item.style.visibility = 'visible';
+                    break;  // Show only one hidden instance
                 }
-            });
+            }            
         });
     });
 });
@@ -130,6 +133,8 @@ function playAudio() {
                 div.className = 'draggable';
                 div.draggable = true;
                 div.textContent = letter;
+                div.dataset.letter = letter;
+
 
                 div.addEventListener('dragstart', (e) => {
                     e.dataTransfer.setData("text/plain", div.textContent);
