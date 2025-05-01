@@ -7,6 +7,71 @@ app.secret_key = 'secret_key_86'  # for session tracking
 
 DB_PATH = "game.db"
 
+# connect with the start page
+@app.route('/')
+def home():
+    return render_template('start.html')
+
+# Add routes for each game mode
+@app.route('/word-building')
+def word_building():
+    word_data = get_random_word()
+    session['correct_word'] = ''.join(word_data['components'])
+    session['current_word_id'] = word_data['id']
+    return render_template('building.html', word=word_data)
+
+@app.route('/word-learning')
+def word_learning():
+    return render_template('learning.html')
+
+
+# Add a new route to serve the learning mode data
+@app.route('/learning-mode')
+def learning_mode():
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    # Only select words that have valid image/audio
+    cursor.execute("SELECT * FROM Words WHERE img_path IS NOT NULL AND audio_path IS NOT NULL")
+    rows = cursor.fetchall()
+    conn.close()
+
+    if len(rows) < 2:
+        return jsonify({'error': 'Not enough valid words'}), 400
+
+    # Randomly pick 2 words
+    selected = random.sample(rows, 2)
+    words = []
+    correct_words = []
+
+    for row in selected:
+        word_text = row[1]
+        words.append({
+            'id': row[0],
+            'img_path': row[8],
+            'audio_path': row[9],
+            'word': word_text
+        })
+        correct_words.append(word_text)
+
+    # Add 2 distractors that are NOT in selected
+    distractor = get_distractors_2(correct_words)
+    all_words = correct_words + distractor
+    random.shuffle(all_words)
+
+    session['learning_correct'] = correct_words
+
+    return jsonify({'words': words, 'choices': all_words})
+
+def get_distractors_2(exclude_words=[]):
+    distractor_words = [
+        'កុក', 'ខ្លា', 'គោ', 'ឃ្លោក', 'ងាវ', 'ចាប', 'ឆ្មា', 'ជ្រូក', 'ឈឺ', 'ញរ',
+        'ដី', 'ឌុប', 'ណែម', 'ត្រី', 'ថូ', 'ទា', 'ធ្មេញ', 'នំ', 'បង្គង', 'ផ្កា',
+        'ពោត', 'ភេ', 'មេឃ', 'យំ', 'រុយ', 'លលក', 'វែក', 'សេះ', 'ហោះ', 'ឡាន', 'អាន'
+    ]
+    filtered = [w for w in distractor_words if w not in exclude_words]
+    return random.sample(filtered, 2)
+
 def get_random_word():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
@@ -54,12 +119,6 @@ def get_distractors():
                      'ហ', 'ឡ', 'អ', 'ា', 'ិ', 'ី', 'ឹ', 'ឺ', 'ុ', 'ូ', 'ួ', 'ំ', 'ះ' , 'េ', 'ែ', 'ៃ',]
     return random.sample(khmer_letters, 2)
 
-@app.route('/')
-def index():
-    word_data = get_random_word()
-    session['correct_word'] = ''.join(word_data['components'])
-    session['current_word_id'] = word_data['id']
-    return render_template('index.html', word=word_data)
 
 @app.route('/check', methods=['POST'])
 def check_word():
@@ -78,7 +137,6 @@ def check_word():
     is_correct = user_word == correct_word
     return jsonify({'correct': is_correct, 'correct_word': correct_word})
 
-
 @app.route('/get-word')
 def get_word():
     word_data = get_random_word()
@@ -88,56 +146,6 @@ def get_word():
         return jsonify(word_data)
     else:
         return jsonify({'error': 'No word found'}), 404
-    
-# Add a new route to serve the learning mode data
-@app.route('/learning-mode')
-def learning_mode():
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM Words ORDER BY RANDOM() LIMIT 4")
-    rows = cursor.fetchall()
-    conn.close()
-
-    if not rows or len(rows) < 4:
-        return jsonify({'error': 'Not enough words'}), 400
-
-    words = []
-    correct_words = []
-    for row in rows:
-        word_text = row[1]
-        words.append({
-            'id': row[0],
-            'img_path': row[8],
-            'word': word_text
-        })
-        correct_words.append(word_text)
-
-    # Add 1 distractor
-    distractor = get_distractors()[0]
-    all_words = correct_words + [distractor]
-    random.shuffle(all_words)
-
-    session['learning_correct'] = correct_words  # Save for validation
-
-    return jsonify({'words': words, 'choices': all_words})
-
-# connect with the start page
-@app.route('/')
-def home():
-    return render_template('start.html')
-
-# Add routes for each game mode
-
-@app.route('/word-building')
-def word_building():
-    word_data = get_random_word()
-    session['correct_word'] = ''.join(word_data['components'])
-    session['current_word_id'] = word_data['id']
-    return render_template('index.html', word=word_data)
-
-@app.route('/word-learning')
-def word_learning():
-    return render_template('learning.html')
 
 
 if __name__ == '__main__':
