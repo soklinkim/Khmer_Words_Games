@@ -106,8 +106,7 @@ function playAudio() {
     
 }
 
-  
-  function loadNewWord() {
+function loadNewWord() {
     fetch("/get-word")
         .then(res => res.json())
         .then(data => {
